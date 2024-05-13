@@ -1,0 +1,57 @@
+﻿@page
+@model IndexModel
+<style>
+    .panel-heading {
+        padding: 0px;
+        //if not working use !important rule
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="mt-4">Chat with your relational database!</h2>
+        <hr />
+        <br />
+    </div>
+    <div class="col-md-12">
+        <form asp-page="Index" class="form">
+            <div class="form-group mb-3">
+                <h4 for="name">Your Prompt</h4>
+                <textarea type="text" asp-for="@Model.UserPrompt" class="form-control"></textarea>
+            </div>
+            <input type="submit" class="btn btn-success" />
+        </form>
+        <hr />
+        @if (!string.IsNullOrEmpty(Model.Error))
+        {
+            <p><b>Error:</b> @Model.Error</p>
+        }
+        @if (!string.IsNullOrEmpty(Model.Summary))
+        {
+            <p><b>AI generated summary:</b> @Model.Summary</p>
+        }
+        @if (!string.IsNullOrEmpty(Model.Query))
+        {
+            <p><b>AI generated query:</b>@Model.Query</p>
+        }
+        @if (Model.RowData != null)
+        {
+            <p><b>Data results:</b></p>
+        }
+        <div class="overflow-scroll">
+            <table class="table table-striped">
+                @if (Model.RowData != null)
+                {
+                    foreach (var row in Model.RowData)
+                    {
+                        <tr>
+                            @foreach (var col in row)
+                            {
+                                <td>@col</td>
+                            }
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+</div>
